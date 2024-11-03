@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo ao &lt;% bot.name %&gt;</title>
+    
+    <link rel="stylesheet" href="%253C%25%2520options.links.appCSS%2520%25%253E">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;family=Montserrat:wght@500;700&amp;display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.3"></script>
+    
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #1a1a1a; /* Fundo escuro */
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .status {
+            background-color: #2e2e2e; /* Fundo do status */
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            justify-content: center; /* Centraliza o conteúdo */
+        }
+
+        .header {
+            display: flex; /* Exibe a logo e o texto na mesma linha */
+            align-items: center; /* Alinha verticalmente */
+            justify-content: center; /* Centraliza horizontalmente */
+            margin: 20px 0; /* Margem acima e abaixo do cabeçalho */
+        }
+
+        h2 {
+            color: #f5f5f5; /* Cor branca suave */
+            margin: 0 20px; /* Margem horizontal para espaçar o texto da logo */
+            font-size: 2.5em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .logo {
+            width: 60px; /* Defina a largura desejada */
+            height: 60px; /* Defina a altura desejada para manter proporções */
+            border-radius: 50%; /* Bordas arredondadas */
+            object-fit: cover; /* Garante que a imagem preencha o espaço com proporções corretas */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Sombra para um efeito mais profissional */
+        }
+
+        .hint {
+            font-size: 1.3em;
+            color: #f5f5f5; /* Cor branca suave */
+            margin-bottom: 20px;
+        }
+
+        .button {
+    background-color: #3f3f3f; /* Cor dourada */
+    color: #ffffff;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin: 10px;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: transform 0.3s, background-color 0.3s;
+    text-decoration: none; /* Remove a linha abaixo do texto */
+}
+
+
+        .button:hover {
+            background-color: #202020; /* Cor dourada mais clara */
+            transform: scale(1.05);
+        }
+
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap; /* Permite que os cartões se movam para a próxima linha se não houver espaço */
+            justify-content: center; /* Centraliza os cartões horizontalmente */
+            margin: 20px auto; /* Margem em cima e embaixo, e auto para centralizar */
+            max-width: 1200px; /* Largura máxima para o contêiner, ajuste conforme necessário */
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1); /* Fundo claro e transparente */
+            border-radius: 15px; /* Bordas arredondadas */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5); /* Sombra ao redor do cartão */
+            margin: 15px; /* Espaçamento externo entre os cartões */
+            padding: 20px; /* Espaçamento interno do cartão */
+            width: 300px; /* Largura fixa do cartão */
+            transition: transform 0.3s, opacity 0.3s; /* Transições suaves */
+            backdrop-filter: blur(5px); /* Efeito de desfoque no fundo */
+            position: relative; /* Para posicionar elementos internos se necessário */
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02); /* Aumento e elevação ao passar o mouse */
+        }
+
+        .card:active {
+            transform: scale(0.98); /* Efeito de diminuição ao clicar */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7); /* Sombreamento mais forte ao clicar */
+        }
+
+        .card h4 {
+            margin: 10px 0; /* Margem em cima e embaixo do título */
+            color: #f5f5f5; /* Cor do texto do título */
+            font-family: 'Montserrat', sans-serif; /* Fonte do título */
+            font-size: 1.5em; /* Tamanho da fonte do título */
+        }
+
+        .card p {
+            color: #f0f0f0; /* Cor do texto do parágrafo */
+            line-height: 1.5; /* Melhor legibilidade */
+        }
+
+        .general-commands {
+            display: flex;
+            flex-direction: column; /* Organizar os comandos um abaixo do outro */
+            margin-top: 5px; /* Margem acima dos comandos */
+        }
+
+        .command {
+            display: flex; /* Usar flexbox para alinhar o texto */
+            align-items: center; /* Alinhar itens verticalmente ao centro */
+            margin: 8px 0; /* Margem vertical entre os comandos */
+            background-color: #333; /* Cor de fundo escura para o comando */
+            color: #fff; /* Cor do texto clara */
+            border-radius: 4px; /* Bordas arredondadas */
+            padding: 8px; /* Espaçamento interno do comando */
+            transition: background-color 0.3s; /* Efeito de transição ao passar o mouse */
+        }
+
+        .command:hover {
+            background-color: #444; /* Mudança de cor ao passar o mouse */
+        }
+
+        .action-buttons-container {
+            text-align: center; /* Centraliza o conteúdo */
+            margin: 20px 0; /* Margem em cima e embaixo do contêiner */
+        }
+
+        .action-buttons-container .button {
+            margin: 5px; /* Espaçamento entre os botões */
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="header">
+            <img src="images/logoo.jpg" alt="Logo do Bot" class="logo">
+            <h2>| BRAVE BUSCAS</h2>
+        </div>
+        <h3></h3>
+
+        <div class="cards-container">
+            <div class="card">
+                <h4>ALGUNS COMANDOS</h4>
+                <div class="general-commands">
+                    <div class="command">
+                        <strong>🟢 CPF:</strong> <code>/cpf 000.000.000-000</code>
+                    </div>
+                    <div class="command">
+                        <strong>🟢 NOME:</strong> <code>/nome nome</code>
+                    </div>
+                    <div class="command">
+                        <strong>🟢 TELEFONE:</strong> <code>/telefone 000000000000</code>
+                    </div>
+                    <div class="command">
+                        <strong>🟢 TELEFONE2:</strong> <code>/telefone2 00000000000</code>
+                    </div>
+                    <div class="command">
+                        <strong>🟢 PLACA:</strong> <code>/placa abc1234</code>
+                    </div>
+                    <div class="command">
+                        <strong>🟢 PLACA2:</strong> <code>/placa2 abc1234</code>
+                    </div>
+                    <div class="command">
+                        <strong>🟡 EMAIL:</strong> <code>/email abc@abc.com</code>
+                    </div>
+                    <div class="command">
+                        <strong>🟢 FOTO:</strong> <code>/foto cpf</code>
+                    </div>
+                    <div class="command">
+                        <strong>🟡 RG:</strong> <code>/rg 000000</code>
+                    </div>
+                    <div class="command">
+                        <strong>🟢 BIN:</strong> <code>/bin 000000</code>
+                    </div>
+
+                    <div class="command">
+                        <strong>🟢 IP:</strong> <code>/ip</code>
+                    </div>
+                    <div class="command">
+                        <strong>🟡 NASCIMENTO:</strong> <code>/nascimento</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons-container">
+            <a href="https://t.me/BraveBuscas" class="button">Canal</a>
+            <a href="https://t.me/Bravesuporte" class="button">Suporte</a>
+            <button class="button" v-on:click="closeWebApp()">Fechar</button>
+        </div>
+        
+
+        <footer>
+            <p>© 2024 | Brave Buscas</p>
+        </footer>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app', // Use o seletor do app inteiro
+            methods: {
+                startBot() {
+                    alert('Para Contratar um Plano use no Bot o Botão: Contratar Bot');
+                },
+                closeWebApp() {
+                    if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+                        Telegram.WebApp.close();
+                    } else {
+                        console.error('Telegram Web App API não está disponível.');
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script src="js/telegram-web-app.js"></script>
+    <script type="text/javascript" src="%253C%25%2520options.links.appJS%2520%25%253E"></script>
+</body>
+</html>
